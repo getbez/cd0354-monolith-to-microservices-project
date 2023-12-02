@@ -1,8 +1,3 @@
-dist: focal
-language: node_js
-node_js:
-  - 19.4.0
-
 services:
   - docker
 
@@ -23,5 +18,7 @@ script:
  - docker tag udagram-reverse-proxy bezag/udagram-reverse-proxy:$TRAVIS_COMMIT
 
 after_success:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push bezag/udagram-users
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" docker.io
+  - docker push bezag/udagram-api-feed:$TRAVIS_COMMIT
+  - docker push bezag/udagram-api-user:$TRAVIS_COMMIT
+  - docker push bezag/udagram-reverse-proxy:$TRAVIS_COMMIT
