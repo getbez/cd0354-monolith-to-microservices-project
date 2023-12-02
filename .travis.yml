@@ -1,0 +1,27 @@
+dist: focal
+language: node_js
+node_js:
+  - 19.4.0
+
+services:
+  - docker
+
+# Pre-testing installs
+install:
+  - echo "no installations"
+
+# Scripts to be run such as tests
+before_script:
+  - echo "no tests"
+
+script:
+ - docker build -t udagram-api-feed ./udagram-api-feed
+ - docker tag udagram-api-feed bezag/udagram-api-feed:$TRAVIS_COMMIT
+ - docker build -t udagram-api-user ./udagram-api-user
+ - docker tag udagram-api-user bezag/udagram-api-user:$TRAVIS_COMMIT
+ - docker build -t udagram-reverse-proxy ./udagram-reverse-proxy
+ - docker tag udagram-reverse-proxy bezag/udagram-reverse-proxy:$TRAVIS_COMMIT
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push bezag/udagram-users
