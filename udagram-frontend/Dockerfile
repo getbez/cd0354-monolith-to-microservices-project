@@ -8,7 +8,7 @@ COPY package*.json ./
 RUN npm ci -f
 ## Bundle app source
 COPY . .
-RUN export NODE_OPTIONS=--openssl-legacy-provider && ionic build --prod
+RUN export NODE_OPTIONS=--openssl-legacy-provider && ionic build
 ### Run 
 FROM nginx:alpine
 #COPY www /usr/share/nginx/html
