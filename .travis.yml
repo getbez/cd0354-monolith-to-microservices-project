@@ -21,6 +21,7 @@ script:
 after_success:
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" docker.io
   - docker push bezag/udagram-api-feed:$TRAVIS_COMMIT
+  - docker push bezag/udagram-api-feed:latest
   - docker push bezag/udagram-api-user:$TRAVIS_COMMIT
   - docker push bezag/udagram-reverse-proxy:$TRAVIS_COMMIT
 
