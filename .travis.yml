@@ -12,6 +12,7 @@ before_script:
 script:
  - docker build -t udagram-api-feed ./udagram-api-feed
  - docker tag udagram-api-feed bezag/udagram-api-feed:$TRAVIS_COMMIT
+ - docker tag udagram-api-feed bezag/udagram-api-feed:latest
  - docker build -t udagram-api-user ./udagram-api-user
  - docker tag udagram-api-user bezag/udagram-api-user:$TRAVIS_COMMIT
  - docker build -t udagram-reverse-proxy ./udagram-reverse-proxy
@@ -22,3 +23,4 @@ after_success:
   - docker push bezag/udagram-api-feed:$TRAVIS_COMMIT
   - docker push bezag/udagram-api-user:$TRAVIS_COMMIT
   - docker push bezag/udagram-reverse-proxy:$TRAVIS_COMMIT
+
