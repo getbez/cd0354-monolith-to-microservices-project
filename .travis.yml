@@ -13,10 +13,14 @@ script:
  - docker build -t bezag/udagram-api-feed -t bezag/udagram-api-feed:$TRAVIS_COMMIT ./udagram-api-feed
  - docker build -t bezag/udagram-api-user -t bezag/udagram-api-user:$TRAVIS_COMMIT ./udagram-api-user
  - docker build -t bezag/udagram-reverse-proxy -t bezag/udagram-reverse-proxy:$TRAVIS_COMMIT ./udagram-reverse-proxy
+ - docker build -t bezag/udagram-frontend -t bezag/udagram-frontend:$TRAVIS_COMMIT ./udagram-frontend
+
 
 after_success:
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" docker.io
   - docker push --all-tags bezag/udagram-api-feed
   - docker push --all-tags bezag/udagram-api-user
   - docker push --all-tags bezag/udagram-reverse-proxy
+  - docker push --all-tags bezag/udagram-frontend
+
 

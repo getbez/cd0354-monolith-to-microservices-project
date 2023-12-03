@@ -23,42 +23,42 @@ spec:
         - name: POSTGRES_FEEDS_HOST
           valueFrom:
             configMapKeyRef:
-              name: udagram-config-map          # The ConfigMap this value comes from.
+              name: udagram-config-map
               key: POSTGRES_FEEDS_HOST 
         - name: POSTGRES_FEEDS_DB
           valueFrom:
             configMapKeyRef:
-              name: udagram-config-map          # The ConfigMap this value comes from.
+              name: udagram-config-map
               key: POSTGRES_FEEDS_DB
         - name: AWS_BUCKET
           valueFrom:
             configMapKeyRef:
-              name: udagram-config-map          # The ConfigMap this value comes from.
+              name: udagram-config-map
               key: AWS_BUCKET
         - name: AWS_REGION
           valueFrom:
             configMapKeyRef:
-              name: udagram-config-map          # The ConfigMap this value comes from.
+              name: udagram-config-map
               key: AWS_REGION     
         - name: AWS_PROFILE
           valueFrom:
             configMapKeyRef:
-              name: udagram-config-map          # The ConfigMap this value comes from.
+              name: udagram-config-map
               key: AWS_PROFILE
         - name: JWT_SECRET
           valueFrom:
             configMapKeyRef:
-              name: udagram-config-map          # The ConfigMap this value comes from.
+              name: udagram-config-map
               key: JWT_SECRET
         - name: POSTGRES_USERNAME
           valueFrom:
             secretKeyRef:
-              name: env-secret          # The ConfigMap this value comes from.
+              name: env-secret          
               key: POSTGRES_USERNAME
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: env-secret          # The ConfigMap this value comes from.
+              name: env-secret         
               key: POSTGRES_PASSWORD
       imagePullSecrets:
       - name: dockercred

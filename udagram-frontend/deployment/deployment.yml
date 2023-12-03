@@ -1,0 +1,34 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: udagram-frontend
+  labels: 
+    app: udagram-frontend
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels: 
+      app: udagram-frontend
+  template: 
+    metadata: 
+      labels: 
+        app: udagram-frontend
+    spec: 
+      containers: 
+      - name: udagram-frontend
+        image: bezag/udagram-frontend
+        ports: 
+        - containerPort: 8100
+        env:
+        - name: JWT_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: udagram-config-map
+              key: JWT_SECRET
+        - name: API_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: udagram-config-map
+              key: API_HOST
+      imagePullSecrets:
+      - name: dockercred
