@@ -1,35 +1,35 @@
 apiVersion: apps/v1 
 kind: Deployment 
 metadata: 
-  name: udagram-api-feed 
+  name: udagram-api-user
   labels: 
-    app: udagram-api-feed 
+    app: udagram-api-user 
 spec: 
   replicas: 1 
   selector: 
     matchLabels: 
-      app: udagram-api-feed
+      app: udagram-api-user
   template: 
     metadata: 
       labels: 
-        app: udagram-api-feed
+        app: udagram-api-user
     spec: 
       containers: 
-      - name: udagram-api-feed 
-        image: bezag/udagram-api-feed
+      - name: udagram-api-user
+        image: bezag/udagram-api-user
         ports: 
         - containerPort: 8080
         env:
-        - name: POSTGRES_FEEDS_HOST
+        - name: POSTGRES_USERS_HOST
           valueFrom:
             configMapKeyRef:
               name: udagram-config-map          # The ConfigMap this value comes from.
-              key: POSTGRES_FEEDS_HOST 
-        - name: POSTGRES_FEEDS_DB
+              key: POSTGRES_USERS_HOST 
+        - name: POSTGRES_USERS_DB
           valueFrom:
             configMapKeyRef:
               name: udagram-config-map          # The ConfigMap this value comes from.
-              key: POSTGRES_FEEDS_DB
+              key: POSTGRES_USERS_DB
         - name: AWS_BUCKET
           valueFrom:
             configMapKeyRef:
