@@ -45,6 +45,16 @@ spec:
             configMapKeyRef:
               name: udagram-config-map 
               key: AWS_PROFILE
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: aws-secret 
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aws-secret
+              key: AWS_SECRET_ACCESS_KEY
         - name: JWT_SECRET
           valueFrom:
             configMapKeyRef:
@@ -60,5 +70,13 @@ spec:
             secretKeyRef:
               name: env-secret 
               key: POSTGRES_PASSWORD
+        volumeMounts:
+        - name: aws-secret
+          mountPath: "/root/.aws/"
+          readOnly: true
       imagePullSecrets:
       - name: dockercred
+      volumes:
+      - name: aws-secret
+        secret:
+          secretName: aws-secret
