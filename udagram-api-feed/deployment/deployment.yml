@@ -20,11 +20,11 @@ spec:
         ports: 
         - containerPort: 8080
         env:
-        - name: POSTGRES_FEEDS_HOST
+        - name: POSTGRES_HOST
           valueFrom:
             configMapKeyRef:
               name: udagram-config-map
-              key: POSTGRES_FEEDS_HOST 
+              key: POSTGRES_HOST 
         - name: POSTGRES_DB
           valueFrom:
             configMapKeyRef:
@@ -50,16 +50,6 @@ spec:
             configMapKeyRef:
               name: udagram-config-map
               key: AWS_PROFILE
-        - name: AWS_ACCESS_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              name: aws-secret 
-              key: AWS_ACCESS_KEY_ID
-        - name: AWS_SECRET_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: aws-secret
-              key: AWS_SECRET_ACCESS_KEY
         - name: JWT_SECRET
           valueFrom:
             configMapKeyRef:
