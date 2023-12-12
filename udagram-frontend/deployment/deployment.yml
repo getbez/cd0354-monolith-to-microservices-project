@@ -25,10 +25,5 @@ spec:
             configMapKeyRef:
               name: udagram-config-map
               key: JWT_SECRET
-        - name: API_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: udagram-config-map
-              key: API_HOST
       imagePullSecrets:
       - name: dockercred

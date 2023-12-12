@@ -31,7 +31,13 @@ router.get('/', async (req: Request, res: Response) => {
   const items = await FeedItem.findAndCountAll({order: [['id', 'DESC']]});
   items.rows.map((item) => {
     if (item.url) {
-      item.url = AWS.getGetSignedUrl(item.url);
+      AWS.getGetSignedUrl(item.url).then( (val)=> item.url = val).then( (signedurl)=> {   
+        item.url = signedurl;   
+        res.status(201).send( item.url);
+      }).catch(error => {
+        console.error("GET all feeds: error getting url from aws", error);
+        res.status(400).send("url not found");
+      })
     }
   });
   res.send(items);
@@ -48,11 +54,18 @@ router.get('/:id',
 // Get a signed url to put a new item in the bucket
 router.get('/signed-url/:fileName',
     requireAuth,
-    async (req: Request, res: Response) => {
-      const {fileName} = req.params;
-      const url = AWS.getPutSignedUrl(fileName);
-      res.status(201).send({url: url});
-    });
+     (req: Request, res: Response) => {
+      const {fileName} = req.params; 
+        AWS.getPutSignedUrl(fileName)
+        .then( (signedurl)=> {   
+          const url = signedurl;   
+          res.status(201).send({url: url});
+        }).catch(error => {
+          console.error("GET GetPutSignedUrl: error getting url from aws", error);
+          res.status(400).send("url not found");
+        })
+    }
+    );
 
 // Create feed with metadata
 router.post('/',
@@ -76,8 +89,15 @@ router.post('/',
 
       const savedItem = await item.save();
 
-      savedItem.url = AWS.getGetSignedUrl(savedItem.url);
-      res.status(201).send(savedItem);
-    });
+        AWS.getGetSignedUrl(savedItem.url).then( (signedurl)=> {
+          savedItem.url = signedurl;
+          res.status(201).send(savedItem);
+        }).catch(error => {
+          console.error("GET GetSignedUrl: error getting url from aws", error);
+          res.status(400).send("url not found");
+        })
+      
+      }
+)
 
 export const FeedRouter: Router = router;

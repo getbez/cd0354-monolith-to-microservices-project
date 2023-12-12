@@ -30,6 +30,11 @@ spec:
             configMapKeyRef:
               name: udagram-config-map 
               key: POSTGRES_USERS_DB
+        - name: API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: udagram-config-map
+              key: API_URL 
         - name: AWS_BUCKET
           valueFrom:
             configMapKeyRef:
