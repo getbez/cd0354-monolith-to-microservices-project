@@ -29,17 +29,14 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
 // Get all feed items
 router.get('/', async (req: Request, res: Response) => {
   const items = await FeedItem.findAndCountAll({order: [['id', 'DESC']]});
-  items.rows.map((item) => {
+
+  for (let item of items.rows) {
     if (item.url) {
-      AWS.getGetSignedUrl(item.url).then( (val)=> item.url = val).then( (signedurl)=> {   
-        item.url = signedurl;   
-        res.status(201).send( item.url);
-      }).catch(error => {
-        console.error("GET all feeds: error getting url from aws", error);
-        res.status(400).send("url not found");
-      })
+      const signedUrl = await AWS.getGetSignedUrl(item.url);
+      item.url = signedUrl;
     }
-  });
+  }
+
   res.send(items);
 });
 
@@ -55,7 +52,9 @@ router.get('/:id',
 router.get('/signed-url/:fileName',
     requireAuth,
      (req: Request, res: Response) => {
+      
       const {fileName} = req.params; 
+      console.info("Get signed url", fileName);
         AWS.getPutSignedUrl(fileName)
         .then( (signedurl)=> {   
           const url = signedurl;   
@@ -74,6 +73,7 @@ router.post('/',
       const caption = req.body.caption;
       const fileName = req.body.url; // same as S3 key name
 
+      console.info("create feed", fileName, caption);
       if (!caption) {
         return res.status(400).send({message: 'Caption is required or malformed.'});
       }

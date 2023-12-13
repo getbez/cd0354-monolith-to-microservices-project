@@ -21,7 +21,7 @@ let params = {
 
 // Generates an AWS signed URL for retrieving objects
 export async function getGetSignedUrl( key: string ): Promise<string> {
-  console.log('Get get signed url for image'+ key);
+  console.log('Get get signed url for image: '+ key);
   const signedUrlExpireSeconds = 60 * 5;
   params.Key = key;
   const getObjectCommand = new GetObjectCommand(params);
